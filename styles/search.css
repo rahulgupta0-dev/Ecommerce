@@ -1,0 +1,180 @@
+/* Search Styles - Enhanced UI */
+.search-wrapper {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+
+#search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto 20px;
+  border: 1px solid #000;
+  border-radius: 50px;
+  padding: 0;
+  position: relative;
+  background: #fff;
+  overflow: hidden;
+  margin-bottom: 0px;
+}
+
+#search-box {
+  padding: 15px;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+  outline: none;
+  background: #fff;
+}
+
+#search-container button {
+  background-color: #a67aff;
+  border: none;
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  position: absolute;
+  cursor: pointer;
+  z-index: 2;
+  outline: 1px solid #000;
+}
+
+#search-container button img {
+  margin:auto;
+  width: 23px;
+}
+
+#clear-btn {
+  right: 10px;
+  display: none;
+  /* Hidden by default */
+}
+
+#search-btn {
+  right: 10px;
+  display: block;
+}
+
+/* SVG Icons (fallbacks) */
+.search-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  stroke: #fff;
+  stroke-width: 2;
+  fill: none;
+}
+
+.close-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  stroke: #fff;
+  stroke-width: 2;
+  fill: none;
+}
+
+#search-results {
+  display: none;
+  list-style: none;
+  margin: 0px auto;
+  padding: 0;
+  transform: translateX(-50%);
+  left: 50%;
+  width: 100%;
+  max-width: 380px;
+  border-top:none;
+  border: 1px solid #333;
+  border-radius: 5px;
+  z-index: 2;
+  background-color: #fff;
+  position: absolute;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-top: none;
+  
+}
+
+/* #search-results li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  display: -webkit-box;             Use flexbox with vertical orientation
+  -webkit-box-orient: vertical;    Vertical box orientation
+  -webkit-line-clamp: 2;            Limit to 2 lines
+  overflow: hidden;                 Hide overflowing content
+  text-overflow: ellipsis;          Show ellipsis (...)
+  white-space: normal;              Allow wrapping
+} */
+#search-results li {
+  border-top: none;
+  padding: 10px;
+  border-bottom: 1px solid #333;
+  font-size: 16px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  width: 100%;
+  max-width: 360px; /* or match your #search-results width */
+  box-sizing: border-box;
+  line-height: 1.2em;
+  max-height: calc(1.2em * 3);
+  position: relative;
+}
+#search-results li::after {
+  content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1.2em;
+      /* The gradient smoothly fades from transparent to white (or your container's background color) */
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+      pointer-events: none; /* Ensure the gradient doesn't interfere with user interaction */
+}
+
+#search-results li:last-child {
+  border-bottom: none;
+  border-radius: 0px 0px 18px 18px;
+}
+
+#search-results a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* @media screen and (max-width: 600px) {
+  #search-container {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  #search-container input[type=text] {
+    width: 80%;
+    margin-right: 10px;
+  }
+
+  #search-container button {
+    width: 20%;
+  }
+} */
+
+#search-container button i {
+  color: #FFFFFF;
+  margin: 3px;
+}
+
+@media only screen and (max-width:600px) {
+  #search-container {
+    border-radius: 0px;
+  }
+}

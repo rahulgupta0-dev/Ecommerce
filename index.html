@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="apple-touch-icon" sizes="180x180" href="https://pranavgupta.netlify.app/ecommerce/cart">
+<link rel="icon" type="image/png" sizes="32x32" href="https://pranavgupta.netlify.app/ecommerce/cart">
+<link rel="icon" type="image/png" sizes="16x16" href="https://pranavgupta.netlify.app/ecommerce/cart">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./styles/main.css">
+  <link rel="stylesheet" href="./styles/slideshow.css">
+  <link rel="stylesheet" href="./styles/search.css">
+  <title>Pranav Store</title>
+  <style>
+    .loading {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    font-family: Monospace;
+    }
+
+
+    .dots::after {
+    content: '';
+    animation: dots 1s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+    0%, 20% { content: '';
+    }
+    40% { content: '.';
+    }
+    60% { content: '..';
+    }
+    80%, 100% { content: '...';
+    }
+    }
+
+
+  </style>
+  <!-- add to cart styles -->
+  <style>
+    /* Improved CSS with fixed button height and smoother animations */
+:root {
+    --white: #fff;
+    --button-height: 45px;
+    /* Fixed button height */
+    --transition-timing: cubic-bezier(0.36, 0.66, 0.32, 1.12);
+    }
+
+    .add-cart {
+    width: 100%;
+    display: grid;
+    justify-self: center;
+    }
+
+    .add-cart button {
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    /* Changed to flex for better content alignment */
+    align-items: center;
+    justify-content: center;
+    height: var(--button-height);
+    /* Fixed height */
+    min-height: var(--button-height);
+    /* Ensure minimum height */
+    max-height: var(--button-height);
+    /* Ensure maximum height */
+    text-transform: uppercase;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 50px;
+    font-weight: 500;
+    transform: scale(var(--scale, 1));
+    transition: transform 0.4s var(--transition-timing),
+    background-color 0.3s ease,
+    outline 0.3s ease;
+    -webkit-appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    overflow: hidden;
+    position: relative;
+    /* Ensure proper stacking context */
+    --cart: var(--white);
+    --tick: var(--primary-color);
+    }
+
+    .add-cart button:hover {
+    font-weight: 600;
+    outline: 2px solid #000;
+    }
+
+    .add-cart button:active {
+    transform: scale(0.98);
+    }
+
+    .add-cart button span {
+    font-size: 14px;
+    font-weight: 500;
+    display: block;
+    position: relative;
+    padding-left: 24px;
+    margin-left: -8px;
+    line-height: 26px;
+    transform: translateY(var(--span-y, 0));
+    transition: transform 0.5s ease;
+    white-space: nowrap;
+    /* Prevent text wrapping */
+    }
+
+    .add-cart button span:before,
+    .add-cart button span:after {
+    content: "";
+    width: var(--w, 2px);
+    height: var(--h, 15px);
+    border-radius: 0px;
+    position: absolute;
+    left: var(--l, 8px);
+    top: var(--t,5.5px);
+    background: currentColor;
+    transform: scale(0.75) rotate(var(--icon-r, 0deg)) translateY(var(--icon-y, 0));
+    transition: transform 0.65s ease 0.05s;
+    }
+
+    .add-cart button span:after {
+    --w: 14px;
+    --h: 2px;
+    --l: 2px;
+    --t: 12px;
+    }
+
+    .add-cart button .cart {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -13px 0 0 -18px;
+    /* Adjusted to center better */
+    transform-origin: 12px 23px;
+    transform: translateX(-180px) rotate(-18deg);
+    height: 26px;
+    /* Fixed height to prevent fluctuation */
+    }
+
+    .add-cart button .cart:before,
+    .add-cart button .cart:after {
+    content: "";
+    position: absolute;
+    }
+
+    .add-cart button .cart:before {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 2px var(--cart);
+    bottom: 0;
+    left: 9px;
+    filter: drop-shadow(11px 0 0 var(--cart));
+    }
+
+    .add-cart button .cart:after {
+    width: 16px;
+    height: 9px;
+    background: var(--cart);
+    left: 9px;
+    bottom: 7px;
+    transform-origin: 50% 100%;
+    transform: perspective(4px) rotateX(-6deg) scaleY(var(--fill, 0));
+    transition: transform 1.2s ease var(--fill-d);
+    }
+
+    .add-cart button .cart svg {
+    z-index: 1;
+    width: 36px;
+    height: 26px;
+    display: block;
+    position: relative;
+    fill: none;
+    stroke: var(--cart);
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    }
+
+    .add-cart button .cart svg polyline:last-child {
+    stroke: var(--tick);
+    stroke-dasharray: 10px;
+    stroke-dashoffset: var(--offset, 10px);
+    transition: stroke-dashoffset 0.4s ease var(--offset-d);
+    }
+
+    .add-cart button.loading {
+    --scale: 0.98;
+    /* Less dramatic scale change */
+    --span-y: -32px;
+    /* Move text completely out of view */
+    --icon-r: 180deg;
+    --fill: 1;
+    --fill-d: 0.8s;
+    --offset: 0;
+    --offset-d: 1.73s;
+    }
+
+    .add-cart button.loading .cart {
+    animation: cart 3.4s linear forwards 0.2s;
+    }
+
+    @keyframes cart {
+    12.5% { transform: translateX(12px) rotate(-18deg);
+    }
+    25%, 45%, 55%, 75% { transform: none;
+    }
+    50% { transform: scale(0.9);
+    }
+    44%, 56% { transform-origin: 12px 23px;
+    }
+    45%, 55% { transform-origin: 50% 50%;
+    }
+    87.5% { transform: translateX(70px) rotate(-18deg);
+    }
+    100% { transform: translateX(180px) rotate(-18deg);
+    }
+    }
+
+    /* Additional helpful styles */
+    /* Reset button after animation completes */
+    @keyframes resetButton {
+    to { opacity: 1;
+    }
+    }
+
+    .add-cart button.reset-ready {
+    animation: resetButton 0.5s ease forwards;
+    }
+
+    /* Optional loading dots for visual feedback */
+    .loading-dots:after {
+    content: '...';
+    animation: loading 1.5s infinite;
+    display: inline-block;
+    width: 20px;
+    text-align: left;
+    }
+
+    @keyframes loading {
+    0% { content: '.';
+    }
+    33% { content: '..';
+    }
+    66% { content: '...';
+    }
+    }
+  </style>
+  <style>
+    .cart-wrap {
+    position: fixed;
+    left: 24px;
+    bottom: 24px;
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    background: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    transition: background 0.2s, box-shadow 0.2s;
+    width: 64px;
+    height: 64px;
+    justify-content: center;
+    }
+
+    .cart-wrap a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    position: relative;
+    }
+
+    .cart-s-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    margin-right: 0;
+    }
+
+    .cart-count {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #fff;
+    color: #000;
+    border-radius: 50%;
+    min-width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    padding: 3px;
+    pointer-events: none;
+    }
+
+    li .cart-count{
+    top: 0px;
+    right: 0px;
+    padding: 2px;
+    }
+
+    /* Accessibility: focus style */
+    .cart-wrap a:focus {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-container">
+      <input type="checkbox" name="" id="checkbox">
+      <div class="hamburger-lines">
+        <span class="line line1"></span>
+        <span class="line line2"></span>
+        <span class="line line3"></span>
+      </div>
+      <ul class="menu-items">
+        <li><a href="#home">Home</a></li>
+        <li class="cart-nav">
+          <a data-testid="cart-icon" href="cart.html" aria-label="View cart">
+            <span class="cart-s-icon">
+              <!-- SVG Cart Icon -->
+              <svg width="28" height="28" viewBox="0 0 18 18" aria-hidden="true">
+                <g fill="#000" fill-rule="nonzero">
+                  <path d="M0 .75A.75.75 0 0 1 .75 0h.558c.95 0 1.52.639 1.845 1.233.217.396.374.855.497 1.271a1.29 1.29 0 0 1 .1-.004h12.498c.83 0 1.43.794 1.202 1.593l-1.828 6.409a2.75 2.75 0 0 1-2.644 1.996H7.03a2.75 2.75 0 0 1-2.652-2.022l-.76-2.772-1.26-4.248-.001-.008c-.156-.567-.302-1.098-.52-1.494-.21-.385-.378-.454-.529-.454H.75A.75.75 0 0 1 0 .75zM6.5 17.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM13.5 17.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+                </g>
+              </svg>
+            </span>
+            <span class="cart-count custom-cart-count" id="cart_count_notification"></span>
+          </a>
+        </li>
+        <li><a href="#news">Blog</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="logo">
+        <img src="./assets/img/pranavStore_darkLogo.png" alt="arjuna-shop" width="230px">
+      </div>
+    </div>
+  </nav>
+  <div class="search-wrapper">
+    <div id="search-container">
+      <!-- Search button with SVG fallback -->
+      <button id="search-btn" aria-label="Search">
+        <!-- SVG fallback for search icon -->
+        <svg class="search-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </button>
+      <!-- Clear button with SVG fallback -->
+      <button id="clear-btn" aria-label="Clear search">
+        <!-- SVG fallback for clear icon -->
+        <svg class="close-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <input type="text" placeholder="What are you looking for ?" id="search-box" aria-label="Search for Products">
+    </div>
+    <ul id="search-results"></ul>
+  </div>
+  <section id="home">
+    <div class="home_page ">
+      <div>
+        <!-- Slideshow container -->
+        <div class="slideshow-container">
+
+          <!-- Full-width images with number and caption text -->
+          <div class="mySlides fade">
+            <a href="https://bitli.in/TGHbZRF">
+              <img src="assets/img/slides/speaker.jpg" style="width:100%">
+            </a>
+            <div class="numbertext">
+              1 / 2
+            </div>
+          </div>
+
+          <div class="mySlides fade">
+            <a href="https://phon.pe/qdfxa4gp">
+              <img src="assets/img/slides/phonepe_ads.jpg" style="width:100%;">
+            </a>
+            <div class="numbertext">
+              ADS
+            </div>
+            <!--       <div class="text">Caption Two</div> -->
+          </div>
+          <div class="mySlides fade">
+            <a href="https://fktr.in/J5tDx1f">
+              <img src="assets/img/slides/oppo_k12x.jpg" style="width:100%;">
+            </a>
+            <div class="numbertext">
+              2 / 2
+            </div>
+            <!--       <div class="text">Caption Two</div> -->
+          </div>
+
+          <!-- Next and previous buttons -->
+          <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+          <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+        <br>
+
+        <!-- The dots/circles -->
+        <div style="text-align:center">
+          <span class="dot" onclick="currentSlide(1)"></span>
+          <span class="dot" onclick="currentSlide(2)"></span>
+          <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="cart-wrap" data-testid="cart" aria-label="Shopping cart">
+  <a data-testid="cart-icon" href="cart.html" aria-label="View cart">
+    <span class="cart-s-icon">
+      <!-- SVG Cart Icon -->
+      <svg width="28" height="28" viewBox="0 0 18 18" aria-hidden="true">
+        <g fill="#FFF" fill-rule="nonzero">
+          <path d="M0 .75A.75.75 0 0 1 .75 0h.558c.95 0 1.52.639 1.845 1.233.217.396.374.855.497 1.271a1.29 1.29 0 0 1 .1-.004h12.498c.83 0 1.43.794 1.202 1.593l-1.828 6.409a2.75 2.75 0 0 1-2.644 1.996H7.03a2.75 2.75 0 0 1-2.652-2.022l-.76-2.772-1.26-4.248-.001-.008c-.156-.567-.302-1.098-.52-1.494-.21-.385-.378-.454-.529-.454H.75A.75.75 0 0 1 0 .75zM6.5 17.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM13.5 17.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"></path>
+        </g>
+      </svg>
+    </span>
+    <span class="cart-count custom-cart-count" id="cart_count_notification"></span>
+  </a>
+</div>
+
+<section id="sellers">
+  <div class="loading">
+    Please wait<span class="dots"></span>
+  </div>
+</section>
+<footer>
+  <div class="footer-container container">
+    <div class="content_1">
+      <img src="./assets/img/pranavStore_lightLogo.png" alt="logo" height="auto" width="180px">
+      <p>
+        The customer is at the heart of our<br>unique business model, which includes<br>design.
+      </p>
+      <div class="social-link">
+        <a href="https://www.facebook.com/#/" rel="noopener noreferrer" target="_blank"><svg class="icon facebook" fill="none" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24">
+          <path d="M12.8945 17.5V12.4824H14.6635L14.9284 10.5269H12.8945V9.27847C12.8945 8.71232 13.0597 8.3265 13.9124 8.3265L15 8.32605V6.57707C14.8119 6.55324 14.1663 6.5 13.4152 6.5C11.8471 6.5 10.7735 7.41129 10.7735 9.08481V10.5269H9V12.4824H10.7735V17.5H12.8945Z" fill="currentcolor"></path>
+        </svg></a>
+        <a href="https://www.youtube.com/#" rel="noopener noreferrer" target="_blank"><svg class="icon youtube" fill="none" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24">          <path fill-rule="evenodd" clip-rule="evenodd" d="M8.50979 8.08183C10.1593 7.97294 13.8384 7.9725 15.4902 8.08183C17.2782 8.2005 17.4867 9.25115 17.5 12C17.4867 14.7537 17.2763 15.7999 15.4902 15.9182C13.8384 16.0275 10.1598 16.0271 8.50979 15.9182C6.72183 15.7995 6.51329 14.7489 6.5 12C6.51329 9.24626 6.72367 8.20005 8.50979 8.08183ZM10.6261 10.2241V13.7796L14.2927 11.9988L10.6261 10.2241Z" fill="currentcolor"></path>
+        </svg></a>
+        <a href="https://twitter.com/#" rel="noopener noreferrer" target="_blank"><svg class="icon twitter" fill="none" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24">
+          <path d="M17.5 8.56547C17.0953 8.74636 16.6603 8.86818 16.2038 8.92309C16.67 8.64207 17.0279 8.19678 17.1961 7.66612C16.7603 7.92637 16.2772 8.11557 15.7629 8.21755C15.3518 7.77594 14.7647 7.5 14.1157 7.5C12.6586 7.5 11.588 8.86864 11.917 10.2894C10.042 10.1948 8.37917 9.2904 7.26588 7.91576C6.67463 8.93694 6.95925 10.2728 7.96392 10.9493C7.5945 10.9373 7.24617 10.8353 6.94229 10.665C6.91754 11.7176 7.66692 12.7023 8.75225 12.9215C8.43463 13.0083 8.08675 13.0286 7.73292 12.9603C8.01983 13.8628 8.85308 14.5195 9.84125 14.5379C8.8925 15.2869 7.69717 15.6214 6.5 15.4793C7.49871 16.1239 8.68533 16.5 9.9595 16.5C14.1496 16.5 16.5169 12.9372 16.3739 9.74169C16.8148 9.42099 17.1975 9.02092 17.5 8.56547Z" fill="currentcolor"></path>
+        </svg></a>
+        <a href="https://www.instagram.com/#/" rel="noopener noreferrer" target="_blank"><svg class="icon instagram" fill="none" xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 24 24">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6.5C10.5063 6.5 10.3193 6.50642 9.73263 6.533C7.73521 6.62467 6.62513 7.73292 6.53346 9.73217C6.50642 10.3193 6.5 10.5063 6.5 12C6.5 13.4937 6.50642 13.6812 6.533 14.2678C6.62467 16.2653 7.73292 17.3753 9.73217 17.467C10.3193 17.4936 10.5063 17.5 12 17.5C13.4937 17.5 13.6812 17.4936 14.2678 17.467C16.2634 17.3753 17.3763 16.2671 17.4665 14.2678C17.4936 13.6812 17.5 13.4937 17.5 12C17.5 10.5063 17.4936 10.3193 17.467 9.73263C17.3772 7.73704 16.2675 6.62513 14.2683 6.53346C13.6812 6.50642 13.4937 6.5 12 6.5ZM12.0013 7.49121C13.4698 7.49121 13.6439 7.49671 14.2242 7.52329C15.7147 7.59113 16.4109 8.29834 16.4787 9.77784C16.5053 10.3576 16.5104 10.5318 16.5104 12.0003C16.5104 13.4693 16.5049 13.643 16.4787 14.2228C16.4104 15.7009 15.7161 16.4095 14.2242 16.4773C13.6439 16.5039 13.4707 16.5094 12.0013 16.5094C10.5328 16.5094 10.3586 16.5039 9.77881 16.4773C8.28465 16.409 7.5921 15.6986 7.52427 14.2223C7.49769 13.6425 7.49219 13.4688 7.49219 11.9998C7.49219 10.5313 7.49815 10.3576 7.52427 9.77738C7.59256 8.29834 8.28694 7.59067 9.77881 7.52284C10.3591 7.49671 10.5328 7.49121 12.0013 7.49121ZM9.1757 11.9999C9.1757 10.4402 10.4402 9.1757 11.9999 9.1757C13.5597 9.1757 14.8242 10.4402 14.8242 11.9999C14.8242 13.5601 13.5597 14.8247 11.9999 14.8247C10.4402 14.8247 9.1757 13.5597 9.1757 11.9999ZM12.0013 13.8327C10.9888 13.8327 10.168 13.0123 10.168 11.9993C10.168 10.9869 10.9888 10.166 12.0013 10.166C13.0138 10.166 13.8346 10.9869 13.8346 11.9993C13.8346 13.0123 13.0138 13.8327 12.0013 13.8327ZM14.2734 9.0643C14.2734 8.69992 14.5691 8.4043 14.9339 8.4043C15.2983 8.4043 15.5934 8.69992 15.5934 9.0643C15.5934 9.42867 15.2983 9.7243 14.9339 9.7243C14.5691 9.7243 14.2734 9.42867 14.2734 9.0643Z" fill="currentcolor"></path>
+        </svg></a>
+      </div>
+    </div>
+    <div class="content_2">
+      <h4>
+        HELPFUL LINKS
+      </h4>
+      <a href="#sellers">
+        budget laptop deals
+      </a>
+      <a href="#sellers">
+        Accessories
+      </a>
+      <a href="#sellers">
+        Sale
+      </a>
+    </div>
+    <div class="content_4">
+      <h4>NEWLETTER</h4>
+      <p>
+        Be the first to know about new<br>arrivals, look books, sales & promos!
+      </p>
+      <div class="f-mail">
+        <form action="#" method="post">
+          <input type="email" placeholder="Enter Email" name="email" required>
+          <button type="submit" class="submit">SEND</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="f-design">
+    <div class="f-design-txt container">
+      <p>
+      Crafted by Rahul Gupta
+      </p>
+    </div>
+  </div>
+</footer>
+<script src="./scripts/main.js" type="module"></script>
+<script src="./scripts/slideshow.js"></script>
+</body>
+</html>
