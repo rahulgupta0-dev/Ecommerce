@@ -17,6 +17,10 @@ An ecommerce frontend project built with HTML, CSS, and JavaScript.
 | Styling     | CSS3        |
 | Logic       | Vanilla JavaScript (ES6+) |
 
+## Live Demo
+
+🔗 **[https://rahulgupta-dev.netlify.app/ecommerce/](https://rahulgupta-dev.netlify.app/ecommerce/)**
+
 ## Architecture
 
 The project follows a modular JavaScript pattern with separate modules for each core feature:
